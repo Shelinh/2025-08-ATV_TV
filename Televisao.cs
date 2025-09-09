@@ -8,62 +8,31 @@ public class Televisao
     private int volumeAtual;
     private bool mudo;
 
-    public Televisao()
+    public float Tamanho { get; set; }
+
+    public int Volume
     {
-        canalAtual = 1; 
+        get => mudo ? 0 : volumeAtual;
+        set
+        {
+            if (value < 0)
+                volumeAtual = 0;
+            else if (value > VolumeMaximo)
+                volumeAtual = VolumeMaximo;
+            else
+                volumeAtual = value;
+        }
+    }
+
+    public Televisao(float tamanho)
+    {
+        Tamanho = tamanho;
+        canalAtual = 1;
         ultimoCanal = 1;
-        volumeAtual = 50; 
+        volumeAtual = 50;
         mudo = false;
     }
 
-    // === Canais ===
-    public void Ligar()
-    {
-        canalAtual = ultimoCanal;
-        Console.WriteLine($"TV ligada no canal {canalAtual}");
-    }
-
-    public void Desligar()
-    {
-        ultimoCanal = canalAtual; 
-        Console.WriteLine("TV desligada");
-    }
-
-    public void ProximoCanal()
-    {
-        if (canalAtual < CanalMaximo)
-            canalAtual++;
-        else
-            canalAtual = 1; 
-
-        ultimoCanal = canalAtual;
-    }
-
-    public void CanalAnterior()
-    {
-        if (canalAtual > 1)
-            canalAtual--;
-        else
-            canalAtual = CanalMaximo; 
-
-        ultimoCanal = canalAtual;
-    }
-
-    public void IrParaCanal(int numero)
-    {
-        if (numero < 1 || numero > CanalMaximo)
-        {
-            Console.WriteLine("Canal inválido!");
-            return;
-        }
-
-        canalAtual = numero;
-        ultimoCanal = numero;
-    }
-
-    public int CanalAtual => canalAtual;
-
-    // Volume
     public void AumentarVolume()
     {
         if (!mudo && volumeAtual < VolumeMaximo)
@@ -76,17 +45,8 @@ public class Televisao
             volumeAtual--;
     }
 
-    public void AtivarMudo()
-    {
-        mudo = true;
-    }
-
-    public void DesativarMudo()
-    {
-        mudo = false;
-    }
-
-    public int VolumeAtual => mudo ? 0 : volumeAtual;
+    public void AtivarMudo() => mudo = true;
+    public void DesativarMudo() => mudo = false;
 
     public bool EstaMudo => mudo;
 }
